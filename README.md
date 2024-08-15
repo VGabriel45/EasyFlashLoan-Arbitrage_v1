@@ -15,10 +15,9 @@ Steps to initiate the project:
 
 1. run yarn install || npm install 
 2. run npx hardhat typechain
-3. go to [Phalcon](https://app.blocksec.com/fork) and create your own mainnet Fork (Polygon)
-4. get the "RPC" from phalcon and add it as an env variable "PROVIDER_URL"
-5. add your private key in the env file as "PRIVATE_KEY"
-6. run "npx hardhat run scripts/deployDodoFlashloan --network phalcon"
+3. run "npx hardhat node --fork https://gateway.tenderly.co/public/polygon" (or choose your own Polygon rpc url to fork)
+4. set the env variable "PROVIDER_URL" to be "http://127.0.0.1:8545/" (your local hardhat fork)
+5. add your TEST private key (DO NOT USE A PRIVATE KEY THAT HOLDS REAL FUNDS) in the env file as "PRIVATE_KEY"
+6. run "npx hardhat run scripts/deployDodoFlashloan --network localhost"
 7. the address of your flashloan contract was printed in your terminal, copy and paste it as "FLASHLOAN_ADDRESS" env variable
-8. you can now run "npx hardhat run scripts/arbitrage --network phalcon"
-9. actively monitor the pool used in the script to borrow, it may run out of liquidity
+8. you can now run "npx hardhat run scripts/arbitrage --network localhost" or "npx hardhat test test/index.test.ts"

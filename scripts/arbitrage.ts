@@ -33,15 +33,15 @@ async function main() {
             provider
         })
 
-        console.log("Sushi Quote", quickQuote);
+        console.log("Quick Quote", quickQuote);
 
-        const apeQuote = await getPriceInUSDC({
-            router: Routers.POLYGON_APESWAP,
-            factory: factories.POLYGON_APESWAP,
-            tokenAddress: ERC20Token.WETH?.address,
-            id: Protocols.APESWAP,
-            provider
-        })
+        // const apeQuote = await getPriceInUSDC({
+        //     router: Routers.POLYGON_APESWAP,
+        //     factory: factories.POLYGON_APESWAP,
+        //     tokenAddress: ERC20Token.WETH?.address,
+        //     id: Protocols.APESWAP,
+        //     provider
+        // })
 
         const quotes = [sushiQuote, quickQuote]; 
 
@@ -52,7 +52,8 @@ async function main() {
 
         console.log("Biggest price difference $", ethers.formatUnits(biggestPriceDiff, 6));
 
-        if(true){
+        // dummy check for testing (checking if price difference > 1 USDC)
+        if(biggestPriceDiff > 1){
             // execute arbitrage flashloan
             const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
             const Flashloan = new ethers.Contract(process.env.FLASHLOAN_ADDRESS!, flashloan.abi, provider);

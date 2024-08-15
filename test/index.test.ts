@@ -31,12 +31,13 @@ describe("DODO Flashloan", () => {
 
         const tokenContract = ERC20__factory.connect(ERC20Token.WETH?.address, provider);
 
-        const mrWhale = "0x8832924854e3Cedb0a6Abf372e6CCFF9F7654332";
+        const mrWhale = "0xdeD8C5159CA3673f543D0F72043E4c655b35b96A";
 
         const flashLoanAddress = await Flashloan.getAddress();
 
         // await tokenContract.connect(wallet).transfer(flashLoanAddress, ethers.parseEther("0.001"));
 
+        // @note Use this just once to fund the flashloan contract, make sure the whale does not get out of funds.
         await impersonateFundERC20({
             sender: mrWhale,
             tokenContract,
@@ -80,7 +81,7 @@ describe("DODO Flashloan", () => {
         }
 
         const tx = await executeFlashloan(params);
-        console.log(tx.hash);
+        console.log(tx);
 
         // expect(await tokenContract.balanceOf(flashLoanAddress)).to.equal(ethers.parseEther("0"));
         // expect(tx.hash).to.not.equal(null);
