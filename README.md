@@ -1,4 +1,4 @@
-# Welcome to the official repository of the first collaborative Flashloan Arbitrage Project.
+# Welcome to the official repository of the Flashloan Arbitrage Project.
 
 ## This project has been used to teach over 300+ students in my first Udemy course. 
 ### You can find the course here: [https://www.udemy.com/course/how-to-actually-build-flashloan-arbitrage-bots]
