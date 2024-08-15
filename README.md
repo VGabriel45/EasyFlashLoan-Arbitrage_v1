@@ -1,7 +1,7 @@
-Welcome to the official repository of the first collaborative Flashloan Arbitrage Project.
+# Welcome to the official repository of the first collaborative Flashloan Arbitrage Project.
 
-This project has been used to teach over 300+ students in my first Udemy course. 
-You can find the course here: [https://www.udemy.com/course/how-to-actually-build-flashloan-arbitrage-bots/?couponCode=LETSLEARNNOWPP]
+## This project has been used to teach over 300+ students in my first Udemy course. 
+### You can find the course here: [https://www.udemy.com/course/how-to-actually-build-flashloan-arbitrage-bots]
 
 As my inaugural course, I recognize there's a lot of room for improvement. By making this repository public, I aim to enhance accessibility and foster collaboration among learners.
 While flash loan bots are typically individual projects (because of obvious financial reasons), I believe we can revolutionize this approach by working together. With over 300 students enrolled in the course, imagine the potential of 300 developers collaborating towards the same project, you will be able to learn a lot of stuff while potentially building a real Flashloan Arbitrage bot.
@@ -22,44 +22,3 @@ Steps to initiate the project:
 7. the address of your flashloan contract was printed in your terminal, copy and paste it as "FLASHLOAN_ADDRESS" env variable
 8. you can now run "npx hardhat run scripts/arbitrage --network phalcon"
 9. actively monitor the pool used in the script to borrow, it may run out of liquidity
-
-
-[User]
-  |
-  |--- Calls ---> [dodoFlashLoan]
-                   |
-                   |--- Encodes data (FlashCallbackData) with loan details
-                   |
-                   |--- Initiates Flash Loan ---> [DODO Protocol]
-                                                   |
-                                                   |--- Provides loan
-                                                   |--- Calls ---> [_flashLoanCallBack]
-                                                                   |
-                                                                   |--- Decodes FlashCallbackData
-                                                                   |
-                                                                   |--- Verifies receipt of loan amount
-                                                                   |
-                                                                   |--- Invokes ---> [routeLoop]
-                                                                                      |
-                                                                                      |--- Iterates over routes
-                                                                                      |    |
-                                                                                      |    |--- Calculates amount per route
-                                                                                      |    |
-                                                                                      |    |--- Invokes ---> [hopLoop]
-                                                                                      |                         |
-                                                                                      |                         |--- Iterates  over hops in route
-                                                                                      |                         |    |
-                                                                                      |                         |    |--- Selects protocol ---> [pickProtocol]
-                                                                                      |                         |    |       |
-                                                                                      |                         |    |       |--- Executes token swap (UniswapV3, UniswapV2, DODOV2)
-                                                                                      |                         |    |       |
-                                                                                      |                         |    |       |--- Returns swapped amount
-                                                                                      |                         |
-                                                                                      |                         |--- Updates amount for next hop
-                                                                   |
-                                                                   |--- Verifies ability to repay loan
-                                                                   |
-                                                                   |--- Repays Flash Loan to [DODO Protocol]
-                                                                   |
-                                                                   |--- Transfers any profit to [Contract Owner]# FlashLoanArbitrage
-# EasyFlashLoan-Arbitrage_v1
