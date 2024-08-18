@@ -1,4 +1,4 @@
-import { ethers } from "ethers"
+import { ethers, parseEther } from "ethers"
 import { Protocols, Routers, dodoV2Pool, factories } from "../constants"
 import { ERC20Token } from "../constants/tokens"
 import { getPriceInUSDC } from "../utils/getPriceInUSDC"
@@ -35,14 +35,6 @@ async function main() {
 
         console.log("Quick Quote", quickQuote);
 
-        // const apeQuote = await getPriceInUSDC({
-        //     router: Routers.POLYGON_APESWAP,
-        //     factory: factories.POLYGON_APESWAP,
-        //     tokenAddress: ERC20Token.WETH?.address,
-        //     id: Protocols.APESWAP,
-        //     provider
-        // })
-
         const quotes = [sushiQuote, quickQuote]; 
 
         const min = quotes.reduce((min, obj) => (obj.quote < min.quote) ? obj : min);
@@ -53,16 +45,16 @@ async function main() {
         console.log("Biggest price difference $", ethers.formatUnits(biggestPriceDiff, 6));
 
         // dummy check for testing (checking if price difference > 1 USDC)
-        if(biggestPriceDiff > 1){
+        if(true){
             // execute arbitrage flashloan
             const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
             const Flashloan = new ethers.Contract(process.env.FLASHLOAN_ADDRESS!, flashloan.abi, provider);
 
             const params: FlashLoanParams = {
                 flashLoanContractAddress: Flashloan.target.toString(),
-                flashLoanPool: dodoV2Pool.USDT_USDC,
-                loanAmount: ethers.parseEther("1"),
-                loanAmountDecimals: 6,
+                flashLoanPool: dodoV2Pool.WETH_USDC,
+                loanAmount: parseEther("1"), // Loaning 1 WETH
+                loanAmountDecimals: 18,
                 hops: [
                     {
                         protocol: max.protocol,
@@ -91,9 +83,7 @@ async function main() {
             }
 
             const tx = await executeFlashloan(params);
-
             console.log(tx.hash, "TX HASH");
-
         }
 
     }

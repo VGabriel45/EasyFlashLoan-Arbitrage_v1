@@ -59,6 +59,8 @@ contract Flashloan is IFlashloan, DodoBase, FlashloanValidation, Withdraw {
         uint256 baseAmount = IDODO(params.flashLoanPool)._BASE_TOKEN_() == loanToken ? params.loanAmount : 0;
         uint256 quoteAmount = IDODO(params.flashLoanPool)._BASE_TOKEN_() == loanToken ? 0 : params.loanAmount; 
 
+        console.log("Amount of base token before doing the loan", baseAmount);
+
         IDODO(params.flashLoanPool).flashLoan(
             baseAmount,
             quoteAmount,
