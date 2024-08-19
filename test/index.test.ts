@@ -52,7 +52,6 @@ describe("DODO Flashloan", () => {
             flashLoanContractAddress: Flashloan.target.toString(),
             flashLoanPool: dodoV2Pool.WETH_ULT,
             loanAmount: ethers.parseEther("0.1"),
-            loanAmountDecimals: 18,
             hops: [
                 {
                     protocol: Protocols.QUICKSWAP,

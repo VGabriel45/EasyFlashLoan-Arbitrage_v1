@@ -5,7 +5,6 @@ export type FlashLoanParams = {
     flashLoanContractAddress: string;
     flashLoanPool: string;
     loanAmount: number | ethers.BigNumberish;
-    loanAmountDecimals: number;
     hops: Hop[];
     gasLimit: number;
     gasPrice: number | bigint;

@@ -1,4 +1,4 @@
-import { ethers, parseEther } from "ethers"
+import { ethers, parseEther, parseUnits } from "ethers"
 import { Protocols, Routers, dodoV2Pool, factories } from "../constants"
 import { ERC20Token } from "../constants/tokens"
 import { getPriceInUSDC } from "../utils/getPriceInUSDC"
@@ -6,12 +6,14 @@ import flashloan from "../artifacts/contracts/FlashLoan.sol/Flashloan.json";
 import { FlashLoanParams } from "../types";
 import { findRouterByProtocol } from "../utils/findRouterByProtocol";
 import { executeFlashloan } from "./executeFlashloan";
+import * as helpers from "@nomicfoundation/hardhat-network-helpers";
 
 const MIN_PRICE_DIFF = 1000000 // $10;
 
 async function main() {
-    // WETH / USDC POOLS
     const checkArbitrage = async () => {
+        // This line is a temporary fix for https://github.com/NomicFoundation/hardhat/issues/5511
+        await helpers.mine()
 
         const provider = new ethers.JsonRpcProvider(process.env.PROVIDER_URL!);
 
@@ -49,12 +51,11 @@ async function main() {
             // execute arbitrage flashloan
             const wallet = new ethers.Wallet(process.env.PRIVATE_KEY!, provider);
             const Flashloan = new ethers.Contract(process.env.FLASHLOAN_ADDRESS!, flashloan.abi, provider);
-
+            
             const params: FlashLoanParams = {
                 flashLoanContractAddress: Flashloan.target.toString(),
                 flashLoanPool: dodoV2Pool.WETH_USDC,
-                loanAmount: parseEther("1"), // Loaning 1 WETH
-                loanAmountDecimals: 18,
+                loanAmount: parseUnits("0.0001", 18), // Loaning 0.0001 WETH 
                 hops: [
                     {
                         protocol: max.protocol,
@@ -62,7 +63,7 @@ async function main() {
                             ["address"],
                             [findRouterByProtocol(min.protocol)]
                         ),
-                        path: [ERC20Token.USDC?.address, ERC20Token.WETH?.address],
+                        path: [ERC20Token.WETH?.address, ERC20Token.USDC?.address],
                         amountOutMinV3: 0,
                         sqrtPriceLimitX96: 0
                     },
@@ -72,7 +73,7 @@ async function main() {
                             ["address"],
                             [findRouterByProtocol(min.protocol)]
                         ),
-                        path: [ERC20Token.WETH?.address, ERC20Token.USDC?.address],
+                        path: [ERC20Token.USDC?.address, ERC20Token.WETH?.address],
                         amountOutMinV3: 0,
                         sqrtPriceLimitX96: 0
                     },
